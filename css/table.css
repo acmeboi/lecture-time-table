@@ -1,0 +1,121 @@
+#table-out{
+    width: 100%;
+    height: 100%;
+    border: 0.001rem solid #676767;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+}
+#table-out th, #table-out td {
+    border: 0.001rem solid #676767;
+
+}
+#tablein{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+}
+#tablein th, #tablein td {
+    height: 100%;
+    text-align: center;
+    border: 0.0001rem solid #F0F0F0;
+}
+#childe{
+    padding: 0.3rem 0.5rem;
+    white-space: nowrap;
+    font-size: 11px;
+}
+#table-header{
+    padding: 0.1rem 0.5rem;
+    text-align: center;
+    font-size: 12px;
+}
+.classBold{
+    font-size: 12px;
+    font-weight: bolder;
+}
+#tdopt{
+    font-size: 11px;
+    text-align: center;
+    padding: 0.1rem 0.5rem;
+    width: 100px;
+    height: 100%;
+}
+.td{
+    font-size: 11px;
+    text-align: center;
+    padding: 0.1rem 0.5rem;
+    width: 30px;
+    height: 100%;
+}
+.td2{
+    font-size: 11px;
+    text-align: left;
+    padding: 0.1rem 0.5rem;
+    width: 35px;
+    height: 100%;
+}
+
+#table-courses-registered{
+    width: 100%;
+    height: 100%;
+    border: 0.001rem solid #676767;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+}
+
+#table-courses-registered th, #table-courses-registered td {
+    border: 0.001rem solid #676767;
+    padding: 10px 10px;
+}
+
+#table-graduated-student{
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000000;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+}
+
+#table-graduated-student th, #table-graduated-student td {
+    border: 1px solid #000000;
+    padding: 5px 5px;
+}
+
+#table-student-info{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+}
+
+#table-student-info th{
+   width: 30%; 
+   text-align: left;
+   padding: 5px 5px;
+}
+
+#table-student-info td{
+   width: 70%; 
+   text-align: left;
+   padding: 5px 5px;
+}
+
+#table-transcript{
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    border-spacing: 0.2rem;
+    border: 1px solid #000;
+    font-size: 11px;
+}
+
+#table-transcript th{
+    border: 1px solid #000;
+    padding: 2px 2px;
+}
+
+#table-transcript td{
+    border: 1px solid #000;
+    padding: 4px 4px;
+}
