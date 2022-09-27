@@ -1,20 +1,26 @@
 <?php
-
+header("Access-Control-Allow-Origin: *");
 include('session.php');
 include('classes.php');
 require './mpdf/vendor/autoload.php';
 $db = new newclass();
 $pdf = new \Mpdf\Mpdf(['format' => 'A4']);
 
+die("Ok");
+
 if (isset($_GET['login_authentication'])) {
     $userid = $_POST['userid'];
     $password = $_POST['password'];
-    if ($db->login($userid, $password) < 1) {
-        echo "error";
-    } else {
-        session_start();
-        $_SESSION['user_id'] = $userid;
-    }
+    $login = $db->login($userid, $password);
+    die("Why");
+//    echo json_encode($login);
+//    if (!$login['status']) {
+//        echo false;
+//    } else {
+//        session_start();
+//        $_SESSION['loger'] = $login['record'];
+//        echo true;
+//    }
 }
 if (isset($_GET['get_staff'])) {
     echo $db->get_staffs();

@@ -8,12 +8,21 @@ class newclass {
         return $this->pdo = new PDO('mysql:host=localhost;dbname=tbs_2015', 'root', '');
     }
 
-    function login($userid, $password) {
-        $qrt = $this->pdo->prepare("SELECT * FROM users WHERE staffid=:staffid AND password=:password");
-        $qrt->bindParam(':staffid', $userid, PDO::PARAM_STR);
-        $qrt->bindParam(':password', $password, PDO::PARAM_STR);
-        $qrt->execute();
-        $result = $qrt->rowCount();
+    function login($data) {
+        $qrt = $this->pdo->prepare("SELECT * FROM users WHERE username=:username AND password=:password");
+        $qrt->execute($data);
+        $info = $qrt->fetch(PDO::FETCH_OBJ);
+        $result = [
+            'status' => $qrt->rowCount(),
+            'loger' => $qrt->rowCount() ? $this->getLoger($info->staffid) : []
+            ];
+        return $result;
+    }
+    
+    function getLoger($sID) {
+        $qrt = $this->pdo->prepare("SELECT s.*, d.`dpt_name` FROM `staff` s JOIN `department` d ON s.`department`=d.`id` WHERE s.`id`=:id");
+        $qrt->execute(['id' => $sID]);
+        $result = $qrt->fetch(PDO::FETCH_OBJ);
         return $result;
     }
 
