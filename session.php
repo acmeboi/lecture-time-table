@@ -1,9 +1,11 @@
 <?php 
 session_start();
-if(isset($_SESSION['user_id'])){
-		$department_id = "1";
-		$academic_session = "2017/2018";
-	}else{
-		header('location:login.php');
-		}
+if (isset($_SESSION['loger']) && !empty($_SESSION['loger'])) {
+    $loger = $_SESSION['loger'];
+    $department_id = $loger->department;
+    $department_name = $loger->dpt_name;
+    $academic_session = "2017/2018";
+} else {
+    header('location:login.php');
+}
 ?>

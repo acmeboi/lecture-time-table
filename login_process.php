@@ -8,14 +8,13 @@ $get = filter_input_array(INPUT_GET);
 
 if (isset($get['login_authentication'])) {
     $login = $db->login($post);
-    die(json_encode($login));
-//    echo json_encode($login);
-//    if (!$login['status']) {
-//        echo false;
-//    } else {
-//        session_start();
-//        $_SESSION['loger'] = $login['record'];
-//        echo true;
-//    }
+    if($login['status'] < 1) {
+        die(json_encode($login));
+        header('location: login.php');
+    }else {
+        session_start();
+        $_SESSION['loger'] = $login['loger'];
+        header('location: index.php');
+    }
 }
 
