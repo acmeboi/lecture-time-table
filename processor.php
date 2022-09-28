@@ -93,33 +93,26 @@ if (isset($_GET['delete_department'])) {
     $db->delet_department($dptID);
 }
 if (isset($_GET['get_course'])) {
-    echo $db->get_courses();
+    echo $db->get_courses($department_id);
 }
 if (isset($_GET['delete_course'])) {
     $c_id = $_POST['cId'];
     $db->delet_course($c_id);
 }
-if (isset($_GET['add_course'])) {
-    $cID = $_POST['cID1'];
-    $ccode = $_POST['ccode1'];
-    $ctitle = $_POST['ctitle1'];
-    $cunit = $_POST['cunit1'];
-    $level = $_POST['level1'];
-    $semester = $_POST['semester1'];
-    if ($db->chk_course($ccode) > 0) {
+if (isset($get['add_course'])) {
+    $tempCID = $post['cID'];
+    unset($post['cID']);
+    if ($db->chk_course($post) > 0) {
         echo "error";
     } else {
-        $db->add_course($ccode, $ctitle, $cunit, $level, $semester);
+        $db->add_course($post);
     }
 }
-if (isset($_GET['update_course'])) {
-    $cID = $_POST['cID1'];
-    $ccode = $_POST['ccode1'];
-    $ctitle = $_POST['ctitle1'];
-    $cunit = $_POST['cunit1'];
-    $level = $_POST['level1'];
-    $semester = $_POST['semester1'];
-    $db->upd_course($cID, $ccode, $ctitle, $cunit, $level, $semester);
+if (isset($get['update_course'])) {
+    $tempCID = $post['cID'];
+    unset($post['cID']);
+    $post['cID'] = $tempCID;
+    $db->upd_course($post);
 }
 if (isset($_GET['get_dpt_list'])) {
     $result = $db->get_dpartment_list();

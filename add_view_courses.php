@@ -59,18 +59,27 @@ $db = new newclass();
             </div>
 
             <div class="w3-container" style="margin-bottom:3%;">
-                <div class="w3-col l4 s12" style="padding: 10px 10px">
+                <div class="w3-col l3 s12" style="padding: 10px 10px">
                     <div class="my-card" style="padding: 10px 10px">
                         <h3 class="w3-center">Course Registration</h3>
                         <div class="w3-container alert-danger w3-padding w3-margin w3-round w3-hide" id="error">Record Exist
                             <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>
                         </div>
                         <form class="w3-form" action="javascript:void(0)" id="course_form">
-                            <input type="text" id="cID" class="w3-hide" />
-                            <input type="text" class="w3-input" id="ccode" pattern="^[a-zA-Z0-9]+$" placeholder="Course Code" required  />
-                            <input type="text" class="w3-input" id="ctitle" pattern="^[a-z A-Z]+$" placeholder="Course Title" required  />
-                            <input type="text" class="w3-input" id="cunit" pattern="^[0-9]+$" placeholder="Unit" required  />
-                            <select class="w3-select" id="level" required>
+                            <input type="text" id="cID" name="cID" class="w3-hide" />
+                            <input type="text" id="department" name="department" value="<?= $department_id ?>" class="w3-hide" />
+                            <select class="w3-select" id="program" name="program" required>
+                                <option selected="selected" value="">--Select Program--</option>
+                                <option value="0">PRE ND</option>
+                                <option value="0">CERTIFICATE</option>
+                                <option value="1">ND</option>
+                                <option value="2">HND</option>
+                            </select>
+                            <label>Program</label>
+                            <input type="text" class="w3-input" id="ccode" name="ccode" pattern="^[a-zA-Z0-9]+$" placeholder="Course Code" required  />
+                            <input type="text" class="w3-input" id="ctitle" name="ctitle" pattern="^[a-z A-Z]+$" placeholder="Course Title" required  />
+                            <input type="text" class="w3-input" id="cunit" name="cunit" pattern="^[0-9]+$" placeholder="Unit" required  />
+                            <select class="w3-select" id="level" name="level" required>
                                 <option selected="selected" value="">--Select Level--</option>
                                 <option value="1">PRE ND</option>
                                 <option value="2">CERTIFICATE</option>
@@ -79,10 +88,8 @@ $db = new newclass();
                                 <option value="1">HND I</option>
                                 <option value="2">HND II</option>
                             </select>
-                            <select class="w3-select" id="semester" required>
+                            <select class="w3-select" id="semester" name="semester" required>
                                 <option selected="selected" value="">--Select Semester--</option>
-                                <option value="1">Semester I</option>
-                                <option value="2">Semester II</option>
                                 <option value="First">First</option>
                                 <option value="Second">Second</option>
                                 <option value="Third">Third</option>
@@ -95,7 +102,7 @@ $db = new newclass();
                     </div>
                 </div>
 
-                <div class="w3-col l8" style="min-height: 65vh; overflow-y:hidden; overflow-x: hidden; padding: 10px 10px;">
+                <div class="w3-col l9 s12" style="min-height: 65vh; overflow-y:hidden; overflow-x: hidden; padding: 10px 10px;">
                     <!--                    <a href="processor.php?delete_user" onclick="return confirm('Are you sure to delete this user')">Delete</a>-->
                     <div class="my-card" id="courses_display" style="padding: 10px 10px">
 

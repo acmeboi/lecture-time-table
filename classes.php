@@ -262,13 +262,18 @@ class newclass {
         return $res;
     }
 
-    function get_courses() {
+    function get_courses($id) {
         $result = '';
         $level = '';
-        $qrt = $this->pdo->prepare("SELECT * FROM courses");
-        $qrt->execute();
+        $qrt = $this->pdo->prepare("SELECT * FROM courses WHERE `department`=:department");
+        $qrt->execute(['department' => $id]);
         $num = 0;
         $res = $qrt->fetchAll(PDO::FETCH_ASSOC);
+        $programs = [
+            '0' => "Certificate",
+            '1' => "ND",
+            '2' => "HND"
+        ];
         ?>
         <script>
             $(document).ready(function () {
@@ -284,8 +289,11 @@ class newclass {
         $result .='<h3>Course List</h3>';
         $result .='<table class="w3-table w3-border" border="1" id="dataTables-courses">';
         $result .='<thead class="w3-green">';
+        $result .='<tr>';
         $result .='<th class="w3-hide"></th>';
         $result .='<th>S/N</th>';
+        $result .='<th>Program</th>';
+        $result .='<th class="w3-hide"></th>';
         $result .='<th>Course Code</th>';
         $result .='<th>Course Title</th>';
         $result .='<th>Course Unit</th>';
@@ -293,6 +301,7 @@ class newclass {
         $result .='<th class="w3-hide"></th>';
         $result .='<th>Semester</th>';
         $result .='<th>Option</th>';
+        $result .='</tr>';
         $result .='</thead>';
         $result .='<tbody>';
         foreach ($res as $rec) {
@@ -305,6 +314,8 @@ class newclass {
             $result .='<tr id="course_edit' . $rec['id'] . '">';
             $result .='<td class="w3-hide">' . $rec['id'] . '</td>';
             $result .='<td><b>' . $num . '</b></td>';
+            $result .='<td>' . $programs[$rec['program']] . '</td>';
+            $result .='<td class="w3-hide">' . $rec['program'] . '</td>';
             $result .='<td>' . $rec['ccode'] . '</td>';
             $result .='<td>' . $rec['ctitle'] . '</td>';
             $result .='<td>' . $rec['cunit'] . '</td>';
@@ -361,34 +372,22 @@ class newclass {
         return true;
     }
 
-    function chk_course($ccode) {
-        $qrt = $this->pdo->prepare("SELECT ccode FROM courses WHERE ccode=:ccode");
-        $qrt->bindParam(':ccode', $ccode, PDO::PARAM_STR);
-        $qrt->execute();
+    function chk_course($data) {
+        $qrt = $this->pdo->prepare("SELECT ccode, department FROM courses WHERE ccode=:ccode AND `department`=:department");
+        $qrt->execute(['ccode' => $data['ccode'], 'department' => $data['department']]);
         $result = $qrt->rowCount();
         return $result;
     }
 
-    function add_course($ccode, $ctitle, $cunit, $level, $semester) {
-        $qrt = $this->pdo->prepare("INSERT INTO courses(ccode,ctitle,cunit,level,semester) Values(:ccode,:ctitle,:cunit,:level,:semester)");
-        $qrt->bindParam(':ccode', $ccode, PDO::PARAM_STR);
-        $qrt->bindParam(':ctitle', $ctitle, PDO::PARAM_STR);
-        $qrt->bindParam(':cunit', $cunit, PDO::PARAM_STR);
-        $qrt->bindParam(':level', $level, PDO::PARAM_STR);
-        $qrt->bindParam(':semester', $semester, PDO::PARAM_STR);
-        $qrt->execute();
+    function add_course($data) {
+        $qrt = $this->pdo->prepare("INSERT INTO `courses`(`department`, `program`, `ccode`, `ctitle`, `cunit`, `level`, `semester`) VALUES (:department, :program, :ccode, :ctitle, :cunit, :level, :semester)");
+        $qrt->execute($data);
         return true;
     }
 
-    function upd_course($cID, $ccode, $ctitle, $cunit, $level, $semester) {
-        $qrt = $this->pdo->prepare("UPDATE courses SET ccode=:ccode,ctitle=:ctitle,cunit=:cunit,level=:level,semester=:semester WHERE id=:id");
-        $qrt->bindParam(':id', $cID, PDO::PARAM_STR);
-        $qrt->bindParam(':ccode', $ccode, PDO::PARAM_STR);
-        $qrt->bindParam(':ctitle', $ctitle, PDO::PARAM_STR);
-        $qrt->bindParam(':cunit', $cunit, PDO::PARAM_STR);
-        $qrt->bindParam(':level', $level, PDO::PARAM_STR);
-        $qrt->bindParam(':semester', $semester, PDO::PARAM_STR);
-        $qrt->execute();
+    function upd_course($data) {
+        $qrt = $this->pdo->prepare("UPDATE `courses` SET `department`=:department,`program`=:program,`ccode`=:ccode,`ctitle`=:ctitle,`cunit`=:cunit,`level`=:level,`semester`=:semester WHERE `id`=:cID");
+        $qrt->execute($data);
         return true;
     }
 

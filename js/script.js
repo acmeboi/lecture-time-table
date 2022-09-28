@@ -213,23 +213,23 @@ $(document).ready(function () {
         });
     });
     $('#course_form').on('submit', function () {
-        var cID = $('#cID').val();
-        var ccode = $('#ccode').val();
-        var ctitle = $('#ctitle').val();
-        var cunit = $('#cunit').val();
-        var level = $('#level').val();
-        var semester = $('#semester').val();
-        var course_data = 'ccode1=' + ccode + '&ctitle1=' + ctitle + '&cunit1=' + cunit + '&level1=' + level + '&semester1=' + semester + '&cID1=' + cID;
+        var formData = $(this).serializeArray();
+        var saveData = {};
+        var cID = null;
+        for(var i = 0; i < formData.length; i++) {
+            saveData[formData[i].name] = formData[i].value;
+        }
         var add = $('#btn_course').val();
         if (add == "Add") {
             $.ajax({
                 type: "POST",
                 url: "processor.php?add_course",
-                data: course_data,
+                data: saveData,
                 success: function (course_result) {
                     if (course_result == "error") {
                         $('#error').removeClass('w3-hide');
                     } else {
+                        alert("New Course Added Successfull");
                         get_courses();
                     }
                 }
@@ -238,7 +238,7 @@ $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: "processor.php?update_course",
-                data: course_data,
+                data: saveData,
                 success: function (course_upd_result) {
                     get_courses();
                 }
@@ -445,14 +445,17 @@ function delet_course_model(id) {
     $('#delet_course_model').removeClass('w3-hide');
 }
 function edit_course(id) {
+    // `department`, `program`, `ccode`, `ctitle`, `cunit`, `level`, `semester`
     var tr = document.getElementById('course_edit' + id);
     var cID = tr.getElementsByTagName('td')[0].innerHTML;
-    var ccode = tr.getElementsByTagName('td')[2].innerHTML;
-    var ctitle = tr.getElementsByTagName('td')[3].innerHTML;
-    var cunit = tr.getElementsByTagName('td')[4].innerHTML;
-    var level = tr.getElementsByTagName('td')[6].innerHTML;
-    var semester = tr.getElementsByTagName('td')[7].innerHTML;
+    var program =  tr.getElementsByTagName('td')[3].innerHTML;
+    var ccode = tr.getElementsByTagName('td')[4].innerHTML;
+    var ctitle = tr.getElementsByTagName('td')[5].innerHTML;
+    var cunit = tr.getElementsByTagName('td')[6].innerHTML;
+    var level = tr.getElementsByTagName('td')[8].innerHTML;
+    var semester = tr.getElementsByTagName('td')[9].innerHTML;
     $('#cID').val(cID);
+    $('#program').val(program);
     $('#ccode').val(ccode);
     $('#ctitle').val(ctitle);
     $('#cunit').val(cunit);
