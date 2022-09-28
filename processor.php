@@ -6,7 +6,8 @@ require './mpdf/vendor/autoload.php';
 $db = new newclass();
 $pdf = new \Mpdf\Mpdf(['format' => 'A4']);
 
-die("Ok");
+$post = filter_input_array(INPUT_POST);
+$get = filter_input_array(INPUT_GET);
 
 if (isset($_GET['login_authentication'])) {
     $userid = $_POST['userid'];

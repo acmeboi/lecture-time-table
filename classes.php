@@ -1,7 +1,7 @@
 <?php
 
 class newclass {
-
+    
     private $pdo;
 
     function __construct() {
@@ -14,11 +14,25 @@ class newclass {
         $info = $qrt->fetch(PDO::FETCH_OBJ);
         $result = [
             'status' => $qrt->rowCount(),
-            'loger' => $qrt->rowCount() ? $this->getLoger($info->staffid) : []
-            ];
+            'loger' => $qrt->rowCount() && $info->type != 1 ?
+            $this->getLoger($info->staffid) :
+            $this->getLogerAdmin()
+        ];
         return $result;
     }
     
+    function getLogerAdmin() {
+        return json_decode(json_encode(
+                        [
+                            'staffid' => null,
+                            'type' => 1,
+                            'department' => null,
+                            'dpt_name' => null
+                        ]
+                )
+        );
+    }
+
     function getLoger($sID) {
         $qrt = $this->pdo->prepare("SELECT s.*, d.`dpt_name` FROM `staff` s JOIN `department` d ON s.`department`=d.`id` WHERE s.`id`=:id");
         $qrt->execute(['id' => $sID]);
@@ -148,7 +162,6 @@ class newclass {
 
         echo
         $result .='<div class="dataTable_wrapper">';
-        $result .='<h3>Department List</h3>';
         $result .='<table class="w3-table w3-border" border="1" id="dataTables-example">';
         $result .='<thead class="w3-green">';
         $result .='<tr>';
