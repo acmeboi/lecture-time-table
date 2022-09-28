@@ -7,6 +7,11 @@ class newclass {
     function __construct() {
         return $this->pdo = new PDO('mysql:host=localhost;dbname=tbs_2015', 'root', '');
     }
+    
+    function createLogin() {
+        $chr = "ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890#$&";
+        return substr(str_shuffle($chr), 0, 5);
+    }
 
     function login($data) {
         $qrt = $this->pdo->prepare("SELECT * FROM users WHERE username=:username AND password=:password");
@@ -14,9 +19,7 @@ class newclass {
         $info = $qrt->fetch(PDO::FETCH_OBJ);
         $result = [
             'status' => $qrt->rowCount(),
-            'loger' => $qrt->rowCount() && $info->type != 1 ?
-            $this->getLoger($info->staffid) :
-            $this->getLogerAdmin()
+            'loger' => $info
         ];
         return $result;
     }
@@ -39,12 +42,75 @@ class newclass {
         $result = $qrt->fetch(PDO::FETCH_OBJ);
         return $result;
     }
+    
+    function chkUser($data) {
+        $qrt = $this->pdo->prepare("SELECT * FROM `users` WHERE `department`=:department");
+        $qrt->execute(['department' => $data['department']]);
+        return $qrt->rowCount() > 0 ? true : false;
+    }
+    
+    function saveUser($data) {
+        $qrt = $this->pdo->prepare("INSERT INTO `users`(`department`, `username`, `password`) VALUES (:department, :username, :password)");
+        $qrt->execute($data);
+        return $qrt ? "New User Created Successfully" : "Error Occure";
+    }
+    
+    function getUsers() {
+        $result = '';
+        $qrt = $this->pdo->prepare("SELECT s.*, d.`dpt_name` FROM `users` s JOIN `department` d ON s.`department`=d.`id`");
+        $qrt->execute();
+        $num = 0;
+        $res = $qrt->fetchAll(PDO::FETCH_ASSOC);
+        ?>
+        <script>
+            $(document).ready(function () {
+                $('#dataTables-staff').DataTable({
+                    responsive: true
+                });
+            });
+        </script>
+        <?php
 
-    function get_staffs() {
+        echo
+        $result .='<div class="dataTable_wrapper">';
+        $result .='<h3>Staff List</h3>';
+        $result .='<table class="w3-table w3-border" border="1" id="dataTables-staff">';
+        $result .='<thead class="w3-green">';
+        $result .='<th>S/N</th>';
+        $result .='<th>Department</th>';
+        $result .='<th>Username</th>';
+        $result .='<th>Password</th>';
+        $result .='<th>Option</th>';
+        $result .='</thead>';
+        $result .='<tbody>';
+        foreach ($res as $rec) {
+            (int) $num += 1;
+            $result .='<tr>';
+            $result .='<td><b>' . $num . '</b></td>';
+            $result .='<td>' . $rec['dpt_name'] . '</td>';
+            $result .='<td>' . $rec['username'] . '</td>';
+            $result .='<td>' . $rec['password'] . '</td>';
+            $result .='<td class="w3-center"><a href="processor.php?delete_user='.$rec['id'].'" onclick="return confirm('."Are you sure to delete this user".')"><i class="w3-text-red fa fa-trash 
+		w3-xlarge"></i></a></td>';
+            $result .='</tr>';
+        }
+        $result .='</tbody>';
+        $result .='</table>';
+        $result .='</div>';
+        return $result;
+    }
+    
+    function deleteUser($data) {
+        $qrt = $this->pdo->prepare("DELETE FROM `users` WHERE id=:id");
+        $qrt->execute($data);
+        return $qrt ? "User Deleted" : "Sorry something went wrong";
+    }
+
+    function get_staffs($id) {
         $result = '';
         $qrt = $this->pdo->prepare("SELECT s.id, s.staffid, s.surname, s.first_name, s.middle_name, d.dpt_name, s.department, s.rank, s.gender FROM 
-		staff s JOIN department d ON s.department=d.id");
-        $qrt->execute();
+		staff s JOIN department d ON s.department=d.id WHERE s.`department`=:department");
+        $qrt->execute(['department'=>$id]);
         $num = 0;
         $res = $qrt->fetchAll(PDO::FETCH_ASSOC);
         ?>
@@ -187,6 +253,13 @@ class newclass {
         $result .='</table>';
         $result .='</div>';
         return $result;
+    }
+    
+    function getDepartmentDropDown() {
+        $qrt = $this->pdo->prepare("SELECT * FROM department");
+        $qrt->execute();
+        $res = $qrt->fetchAll(PDO::FETCH_ASSOC);
+        return $res;
     }
 
     function get_courses() {

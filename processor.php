@@ -9,22 +9,37 @@ $pdf = new \Mpdf\Mpdf(['format' => 'A4']);
 $post = filter_input_array(INPUT_POST);
 $get = filter_input_array(INPUT_GET);
 
-if (isset($_GET['login_authentication'])) {
-    $userid = $_POST['userid'];
-    $password = $_POST['password'];
+if (isset($get['login_authentication'])) {
+    $userid = $post['userid'];
+    $password = $post['password'];
     $login = $db->login($userid, $password);
-    die("Why");
-//    echo json_encode($login);
-//    if (!$login['status']) {
-//        echo false;
-//    } else {
-//        session_start();
-//        $_SESSION['loger'] = $login['record'];
-//        echo true;
-//    }
 }
+
+if (isset($get['save_user'])) {
+    if($db->chkUser($post)) {
+        echo "User already Exist";
+        die("");
+    }
+    echo $db->saveUser($post);
+}
+
+if(isset($get['get_users'])) {
+    echo $db->getUsers();
+}
+
+if(isset($get['delete_user'])) {
+    $data = ['id' => $get['delete_user']];
+    $db->deleteUser($data)
+    ?>
+<script>
+    alert("User Deleted");
+    window.history.go(-1);
+</script>
+<?php
+}
+
 if (isset($_GET['get_staff'])) {
-    echo $db->get_staffs();
+    echo $db->get_staffs($department_id);
 }
 if (isset($_GET['save_staff'])) {
     $sID = $_POST['sID1'];

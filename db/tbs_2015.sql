@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2021 at 03:44 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Sep 28, 2022 at 12:56 PM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 8.0.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -92,7 +92,7 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`id`, `dpt_name`, `dpt_school`) VALUES
-(1, 'Computer Science', 'Management and technology'),
+(1, 'Computer science', 'Management and technology'),
 (2, 'Agric Technology', 'Business Administration'),
 (6, 'Statistics', 'Management and technology');
 
@@ -118,8 +118,10 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`id`, `staffid`, `surname`, `first_name`, `middle_name`, `department`, `rank`, `gender`) VALUES
-(1, 'FPB/S/P/001', 'Muhammad', 'Isa', 'Alhaji', 1, 'HOD', 'Male'),
-(3, 'FPB/S/P/002', 'Julius', 'Igbasho', 'Irlomum', 1, 'HOD', 'Male');
+(1, 'FPB/S/P/001', 'Ahmed', 'Muhammed', 'A', 1, 'HOD', 'Male'),
+(3, 'FPB/S/P/002', 'Julius', 'Igbasho', 'Irlomum', 1, 'HOD', 'Male'),
+(4, 'FPB/S/P/005', 'Muhammad', 'Ahmed', 'J', 6, 'HOD', 'Male'),
+(5, 'FPB/S/P/009', 'Musa', 'Bala', 'Aminu', 6, 'HOD', 'Male');
 
 -- --------------------------------------------------------
 
@@ -188,18 +190,21 @@ INSERT INTO `ttbs_staff` (`id`, `staff_id`, `course_id`, `dpt_id`, `level`, `sem
 
 CREATE TABLE `users` (
   `id` int(50) NOT NULL,
-  `staffid` varchar(50) NOT NULL,
+  `department` varchar(50) DEFAULT NULL,
+  `username` varchar(10) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `dpt_id` int(50) NOT NULL,
-  `type` int(2) NOT NULL
+  `type` int(2) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `staffid`, `password`, `dpt_id`, `type`) VALUES
-(1, 'FPB/SP/001', '123', 0, 1);
+INSERT INTO `users` (`id`, `department`, `username`, `password`, `type`) VALUES
+(1, '1', 'FPB/SP/001', '123', 0),
+(2, NULL, 'Admin', 'admin', 1),
+(3, '2', '4wbcd', '6dLv1', 0),
+(8, '6', 'Wwo$O', '5g1tf', 0);
 
 --
 -- Indexes for dumped tables
@@ -273,7 +278,7 @@ ALTER TABLE `department`
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `time_table_schedule`
@@ -291,7 +296,7 @@ ALTER TABLE `ttbs_staff`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

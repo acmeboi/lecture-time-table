@@ -8,6 +8,7 @@ $get = filter_input_array(INPUT_GET);
 
 if (isset($get['login_authentication'])) {
     $login = $db->login($post);
+//    die(json_encode($login));
     if($login['status'] < 1) {
         die(json_encode($login));
         header('location: login.php');

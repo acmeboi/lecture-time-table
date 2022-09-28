@@ -54,25 +54,31 @@ $db = new newclass();
             </header>
 
             <div class="w3-container w3-margin w3-padding-12 w3-border w3-border-green w3-round alert-success">
-                <i class="fa fa-building w3-xlarge"></i> &nbsp; Add/View Department
+                <i class="fa fa-building w3-xlarge"></i> &nbsp; Manage Users
             </div>
 
             <div class="w3-container" style="margin-bottom:3%;" >
                 <div class="w3-col l4 s12" style="padding: 10px 10px">
                     <div class="my-card" style="padding: 10px 10px">
-                        <h3 class="w3-center">New Department</h3>
+                        <h3 class="w3-center">New User</h3>
                         <div class="w3-container alert-danger w3-padding w3-margin w3-round w3-hide" id="error">Record Exist
                             <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>
                         </div>
-                        <form class="w3-form" action="javascript:void(0)" id="dpt_form">
-                            <input type="text" id="dptID" class=" w3-hide" />
-                            <input type="text" class="w3-input" id="department" placeholder="Department" required  />
-                            <select class="w3-select" id="school" required>
+                        <form class="w3-form" action="javascript:void(0)" id="user_form">
+                            <select class="w3-select" id="department" required>
                                 <option selected="selected" value="">--Select School--</option>
-                                <option value="Science and technology">Science and technology</option>
-                                <option value="Business Administration">Business Administration</option>
-                                <option value="Management and technology">Management and technology</option>
+                                <?php
+                                foreach ($db->getDepartmentDropDown() as $row){
+                                ?>
+                                <option value="<?= $row['id'] ?>"><?= $row['dpt_name'] ?></option>
+                                <?php
+                                }
+                                ?>
                             </select>
+                            <label>Department</label>
+                            <input type="text" class="w3-input" value="<?= $db->createLogin() ?>" id="username" required  />
+                            <label>Username</label>
+                            <input type="text" class="w3-input w3-hide" value="<?= $db->createLogin() ?>" id="password" required  />
                             <br /><br />
                             <input type="submit" class="w3-green w3-round w3-btn" value="Add" id="btn_deparment" />
                             <input type="reset" value="Reset" class="w3-btn w3-round w3-red" id="btn_department_cancel" />
@@ -81,7 +87,8 @@ $db = new newclass();
                 </div>
 
                 <div class="w3-col l8" style="min-height: 65vh; overflow-y:hidden; overflow-x: hidden; padding: 10px 10px;">
-                    <div class="my-card" id="department_display" style="padding: 10px 10px">
+<!--                    <a href="processor.php?delete_user" onclick="return confirm('Are you sure to delete this user')">Delete</a>-->
+                    <div class="my-card" id="userslist" style="padding: 10px 10px">
                         
                     </div>
                 </div>

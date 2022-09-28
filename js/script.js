@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    get_users();
     displatstaff();
     get_department();
     get_courses();
@@ -167,6 +168,21 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+    $('#user_form').on('submit', function () {
+        var department = $('#department').val();
+        var username = $('#username').val();
+        var password = $('#password').val();
+        var user = 'department=' + department + '&username=' + username + '&password=' + password;
+        $.ajax({
+            type: "POST",
+            url: "processor.php?save_user",
+            data: user,
+            success: function (response) {
+                alert(response);
+                window.location.reload();
+            }
+        });
     });
     $('#btn_department_cancel').click(function () {
         $('#btn_deparment').val('Add');
@@ -375,6 +391,23 @@ function get_department() {
         });
     });
 }
+
+function get_users() {
+    $.ajax({
+        url: "processor.php?get_users",
+        type: "POST",
+        success: function (response) {
+            $("#userslist").html(response);
+
+        }
+    });
+    $(document).ready(function () {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+}
+
 function edit_department(id) {
     var tr = document.getElementById('dpt_edit' + id);
     var dptID = tr.getElementsByTagName('td')[0].innerHTML;

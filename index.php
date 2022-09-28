@@ -105,9 +105,9 @@
             
         </div>
     </body>
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/script.js"></script>
     <script src="bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/loginscript.js"></script>
     <script src="js/jquery.dataTables.min.js"></script>
     <script src="js/dataTables.bootstrap.min.js"></script>
     <script>
