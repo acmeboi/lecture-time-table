@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 28, 2022 at 12:56 PM
+-- Generation Time: Sep 29, 2022 at 12:59 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.0.9
 
@@ -29,6 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `courses` (
   `id` int(50) NOT NULL,
+  `department` int(10) NOT NULL,
+  `program` int(2) NOT NULL,
   `ccode` varchar(10) NOT NULL,
   `ctitle` varchar(50) NOT NULL,
   `cunit` int(2) NOT NULL,
@@ -40,12 +42,13 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `ccode`, `ctitle`, `cunit`, `level`, `semester`) VALUES
-(2, 'COM112', 'Introduction To Programming', 4, 1, 'First'),
-(3, 'COM111', 'Introduction To computer', 4, 1, 'First'),
-(4, 'STA112', 'Descriptive Statistics', 3, 1, 'First'),
-(5, 'COM211', 'Java Programming I', 6, 2, 'Third'),
-(6, 'COM212', 'MIS', 4, 2, 'Third');
+INSERT INTO `courses` (`id`, `department`, `program`, `ccode`, `ctitle`, `cunit`, `level`, `semester`) VALUES
+(2, 1, 1, 'COM112', 'Introduction To Programming', 4, 1, 'First'),
+(3, 1, 1, 'COM111', 'Introduction To computer', 4, 1, 'First'),
+(4, 1, 1, 'STA112', 'Descriptive Statistics', 3, 1, 'First'),
+(5, 1, 1, 'COM211', 'Java Programming I', 6, 2, 'Third'),
+(6, 1, 1, 'COM212', 'MIS', 4, 2, 'Third'),
+(7, 6, 1, 'COM112', 'Introduction To Computer', 2, 1, 'First');
 
 -- --------------------------------------------------------
 
@@ -260,7 +263,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `course_allocation`
