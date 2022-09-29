@@ -1384,14 +1384,9 @@ class newclass {
         return $result;
     }
 
-    function get_allocated_courses($dpt_id, $session, $lve, $sme) {
-        $qrt = $this->pdo->prepare("SELECT c.id, c.ccode FROM courses c JOIN course_allocation ca ON c.id=ca.c_id WHERE 
-		ca.dpt_id=:dpt_id AND ca.academic_session=:academic_session AND c.level=:level AND c.semester=:semester");
-        $qrt->bindParam(':dpt_id', $dpt_id, PDO::PARAM_INT);
-        $qrt->bindParam(':academic_session', $session, PDO::PARAM_STR);
-        $qrt->bindParam(':level', $lve, PDO::PARAM_INT);
-        $qrt->bindParam(':semester', $sme, PDO::PARAM_STR);
-        $qrt->execute();
+    function get_allocated_courses($data) {
+        $qrt = $this->pdo->prepare("SELECT * FROM `courses` WHERE `department`=:department AND `program`=:program AND `level`=:level AND `semester`=:semester");
+        $qrt->execute($data);
         $result = $qrt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     }

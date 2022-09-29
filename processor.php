@@ -172,10 +172,9 @@ if (isset($_GET['acd_session'])) {
     $n_session = date('Y') + 1;
     echo $c_session . "/" . $n_session;
 }
-if (isset($_GET['allocated_coursess'])) {
-    $lve = $_POST['level'];
-    $smt = $_POST['semester'];
-    $rec = $db->get_allocated_courses($department_id, $academic_session, $lve, $smt);
+if (isset($get['allocated_coursess'])) {
+    $post['department'] = $department_id;
+    $rec = $db->get_allocated_courses($post);
     echo '<option selected="selected" value="">--Select Course--</option>';
     foreach ($rec as $r) {
         echo '<option value="' . $r['id'] . '">' . $r['ccode'] . '</option>';

@@ -65,10 +65,10 @@ $db = new newclass();
                         <div class="w3-container alert-danger w3-padding w3-margin w3-round w3-hide" id="error">Record Exist
                             <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>
                         </div>
-                        <form class="w3-form" action="javascript:void(0)" id="course_form">
+                        <form class="w3-form" action="javascript:void(ccode0)" id="course_form">
                             <input type="text" id="cID" name="cID" class="w3-hide" />
                             <input type="text" id="department" name="department" value="<?= $department_id ?>" class="w3-hide" />
-                            <select class="w3-select" id="program" name="program" required>
+                            <select class="w3-select" id="program" name="program" onchange="toggleLevel(this)" required>
                                 <option selected="selected" value="">--Select Program--</option>
                                 <option value="0">PRE ND</option>
                                 <option value="0">CERTIFICATE</option>
@@ -79,14 +79,8 @@ $db = new newclass();
                             <input type="text" class="w3-input" id="ccode" name="ccode" pattern="^[a-zA-Z0-9]+$" placeholder="Course Code" required  />
                             <input type="text" class="w3-input" id="ctitle" name="ctitle" pattern="^[a-z A-Z]+$" placeholder="Course Title" required  />
                             <input type="text" class="w3-input" id="cunit" name="cunit" pattern="^[0-9]+$" placeholder="Unit" required  />
-                            <select class="w3-select" id="level" name="level" required>
+                            <select class="w3-select level" id="level" name="level" required>
                                 <option selected="selected" value="">--Select Level--</option>
-                                <option value="1">PRE ND</option>
-                                <option value="2">CERTIFICATE</option>
-                                <option value="1">ND I</option>
-                                <option value="2">ND II</option>
-                                <option value="1">HND I</option>
-                                <option value="2">HND II</option>
                             </select>
                             <select class="w3-select" id="semester" name="semester" required>
                                 <option selected="selected" value="">--Select Semester--</option>

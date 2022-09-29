@@ -76,9 +76,8 @@ $db = new newclass();
                             <input type="text" value="<?= $department_id ?>" id="department" class=" w3-hide" />
                             <select class="w3-select" id="rank" required>
                                 <option selected="selected" value="">--Select Rank--</option>
-                                <option value="HOD">HOD</option>
-                                <option value="HOD">DEO</option>
-                                <option value="HOD">Lecturer</option>
+                                <option value="DEO">DEO</option>
+                                <option value="LECTURER">Lecturer</option>
                             </select>
                             <select class="w3-select" id="gender" required>
                                 <option selected="selected" value="">--Select Gender--</option>

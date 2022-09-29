@@ -8,7 +8,7 @@
         <link href="css/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
         <link href="css/dataTables.responsive.css" rel="stylesheet" type="text/css" />
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        
+
         <style>
             .sidebarwidth{
                 width:250px;
@@ -22,19 +22,16 @@
     <body class="" ng-app="download" ng-controller="myCtrl">
         <nav class="w3-sidenav w3-collapse w3-white  w3-animate-left sidebarwidth w3-border-right" id="mySidenav">
             <a href="#" class=" w3-container w3-center w3-padding w3-green" id="banner">
-                <p><small>THE POLYTECHNICH BALI</small><span class="w3-opennav w3-large w3-hide-large w3-right" onclick="w3_open()">X</span></p> 
-                <img class="w3-white w3-round-jumbo" src="Image/logo.png" style=" margin-bottom:-15%;" />
+                <p class="d-flex align-items-center justify-content-center">
+                    <span style="font-size: 14px; font-weight: 700; line-height: 10px">THE POLYTECHNIC BALI</span>
+                    <span class="w3-opennav w3-large w3-hide-large w3-right" onclick="w3_open()">X</span>
+                </p> 
+                <img class="w3-white w3-round-jumbo" src="Image/logo.png" style=" margin-bottom:-15%; padding: 10px 10px;" />
             </a>
             <br /><br />
-           <a href="index.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green" >Dashboard</a>
-  <a href="add_view_department.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Add School</a>
-  <a href="add_view_department.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Add Department</a>
-  <a href="reg_view_staff.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green" >Register/View Staff</a>
-  <a href="add_view_courses.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Add/View Courses</a>
-  <a href="courses_allocation.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Courses Allocation</a>
-  <a href="time_table_schedulling.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Schedul Time Table</a>
-  <a href="print_timetable.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Print Time Table</a>
-   <a href="logout.php" class="w3-padding w3-border-bottom w3-border-green w3-text-green">Logout</a>
+            <div class="side-menu">
+                <?php include './menu_list.php'; ?>
+            </div>
         </nav>
 
         <div class="w3-main" style="margin-left:250px">
@@ -54,18 +51,24 @@
             </div>
 
             <div class="w3-container" style="margin-bottom:3%;">
-                <div class="w3-col l3 w3-border-green w3-rightbar panel panel-danger">
+                <div class="w3-col l3 s12" style="padding: 10px 10px">
+                    <div class="my-card" style="padding: 10px 10px">
                     <div class="alert-danger w3-padding w3-margin w3-round" style="display: none;" id="error"><span id="msgError">Record Exist</span>
-<!--                        <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>-->
+                        <!--                        <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>-->
                     </div>
                     <div class="alert-success w3-padding w3-margin w3-round" style="display: none;" id="divSuccess"><span id="msgSuccess">Record Exist</span>
-<!--                        <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>-->
+                        <!--                        <div class="w3-large w3-closebtn" onclick="$('#error').addClass('w3-hide')">X</div>-->
                     </div>
                     <form class="w3-form" action="javascript:void(0)" id="schedull_form">
-                        <select class="w3-select" id="level" required>
+                        <select class="w3-select" id="program" name="program" onchange="toggleLevel(this)" required>
+                            <option selected="selected" value="">--Select Program--</option>
+                            <option value="0">PRE ND</option>
+                            <option value="0">CERTIFICATE</option>
+                            <option value="1">ND</option>
+                            <option value="2">HND</option>
+                        </select>
+                        <select class="w3-select level" id="level" required>
                             <option selected="selected" value="">--Level--</option>
-                            <option value="1">ND 1</option>
-                            <option value="2">ND 2</option>
                         </select>
                         <select class="w3-select" id="semester" onchange="get_allocated_course(), time_table()" required>
                             <option selected="selected" value="select">--Select Semester--</option>
@@ -94,7 +97,7 @@
                             <option value="Wednesday">Wednesday</option>
                             <option value="Thursday">Thursday</option>
                             <option value="Friday">Friday</option>
-							<option value="Saturday">Saturday</option>
+                            <option value="Saturday">Saturday</option>
                         </select>
                         <select class="w3-select" id="venue" required>
                             <option selected="selected" value="">--Select Venue--</option>
@@ -107,10 +110,14 @@
                         <button type="submit" class="w3-green btn" value="Save" id="save"><i class="fa fa-save"></i>&nbsp;Save</button>
                         <button type="reset" class="btn btn-danger" value="Reset" id="btn_department_cancel"><i class="fa fa-repeat"></i>&nbsp;Cancel</button>
                     </form>
+                    </div>
                 </div>
 
 
-                <div class="w3-col w3-margin l8" style="max-height:10%; height:450px; overflow:scroll;" onclick="$("#delet_model").">
+                <div class="w3-col w3-margin l8" style="min-height: 65vh; padding: 10px 10px; overflow:scroll;" onclick="$("#delet_model").">
+                    <!--                    <a href="processor.php?delete_user" onclick="return confirm('Are you sure to delete this user')">Delete</a>-->
+                    <div class="my-card" style="padding: 10px 10px">
+                        
                     <div class="w3-row">
                         <div class="w3-col l12">
                             <button class="btn w3-blue w3-right" ng-click="downloadTimeTable()">
@@ -125,7 +132,8 @@
                             </div>
                         </div>
                     </div>
-                    
+                    </div>
+
                 </div>
             </div>
 
@@ -160,16 +168,16 @@
         <script src="js/dataTables.bootstrap.min.js"></script>
         <script src="js/dataTables.bootstrap.js"></script>
         <script>
-                    function w3_open() {
-                        $('#mySidenav').slideToggle();
-                        $('#header').slideToggle('w3-text-green');
-                        $('#header_text').slideToggle('w3-text-green')
-                    }
-                    $(document).ready(function () {
-                        $('#dataTables-courses').DataTable({
-                            responsive: true
+                        function w3_open() {
+                            $('#mySidenav').slideToggle();
+                            $('#header').slideToggle('w3-text-green');
+                            $('#header_text').slideToggle('w3-text-green')
+                        }
+                        $(document).ready(function () {
+                            $('#dataTables-courses').DataTable({
+                                responsive: true
+                            });
                         });
-                    });
         </script>
     </body>
 </html>

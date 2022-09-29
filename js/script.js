@@ -11,6 +11,43 @@ $(document).ready(function () {
     department_added();
     courses_added();
 });
+const toggleLevel = target => {
+    var program = target.value,
+    levels = {
+        '0' : [
+            {'id' : 1, 'title' : "Certificate"}
+        ],
+        '1' : [
+            {'id' : 1, 'title' : "ND I"},
+            {'id' : 2, 'title' : "ND II"}
+        ],
+        '2' : [
+            {'id' : 1, 'title' : "HND I"},
+            {'id' : 2, 'title' : "HND II"}
+        ]
+    }[program],
+    
+    form = document.getElementById('course_form') || document.getElementById('schedull_form'),
+    levelSelect = form.querySelector('.level'),
+    length = levelSelect.options.length;
+    
+    for(var i = length - 1; i >= 0; i--) {
+        levelSelect.options[i] = null;
+    }
+    
+    var opt = document.createElement("option");
+    opt.appendChild(document.createTextNode("--Select Level--"));
+    opt.value = "";
+    levelSelect.appendChild(opt);
+    
+    levels.forEach(level => {
+        var opt = document.createElement("option");
+        opt.appendChild(document.createTextNode(level.title));
+        opt.value = level.id; 
+        
+        levelSelect.appendChild(opt);
+    });
+};
 function registered_staff() {
     $.ajax({
         type: "POST",
@@ -459,10 +496,13 @@ function edit_course(id) {
     $('#ccode').val(ccode);
     $('#ctitle').val(ctitle);
     $('#cunit').val(cunit);
+    var pElem = document.getElementById('program');
+    toggleLevel(pElem);
     $('#level').val(level);
     $('#semester').val(semester);
     $('#btn_course').val('Update');
     $('#btn_department_cancel').val('Cancel');
+   
 }
 function get_department_list() {
     $.ajax({
@@ -562,12 +602,13 @@ function session_data() {
     });
 }
 function get_allocated_course() {
+    var program = $('#program').val();
     var level = $('#level').val();
     var semester = $('#semester').val();
     $.ajax({
         type: "POST",
         url: "processor.php?allocated_coursess",
-        data: {level: level, semester: semester},
+        data: {department : '', program : program, level: level, semester: semester},
         success: function (result) {
             $('#time_courses').html(result);
         }
